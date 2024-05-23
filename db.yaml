@@ -1,0 +1,16 @@
+- name: Intall mySql for Expense
+  hosts: localhost
+  become: true
+
+  tasks:
+    - name: Install Mysql-server
+      ansible.builtin.dnf:
+        name: mysql-server
+        state: latest
+
+  tasks:
+    - name: Start and Enable mysql
+      ansible.builtin.service:
+        - name: mysqld
+          state: started
+          enabled: yes 
