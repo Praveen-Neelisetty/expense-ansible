@@ -3,7 +3,7 @@
   become: true
 
   vars:
-    my_login_host: "praveen.store"
+    my_login_host: "db.praveen.store"
 
   vars_prompt:
     name: mysql_root_password
