@@ -1,6 +1,14 @@
-- name: Intall mySql for Expense
+- name: Install mySql for Expense
   hosts: localhost
   become: true
+
+  vars:
+    my_login_host: "praveen.store"
+
+  vars_prompt:
+    name: my_login_password
+    prompt: "Please Enter your login password: "
+    private: false
 
   tasks:
     - name: Install Mysql-server
@@ -13,3 +21,23 @@
         name: mysqld
         state: started
         enabled: yes
+
+    - name: check DB Connection
+      community.mysql.mysql_info:
+        login_user: root
+        login_password: "{{ my_login_password }}"
+        login_host: "{{ my_login_host }}"
+        filter: version
+      ignore_errors: yes
+      register: mysql_connection_output
+
+    - name: print oput of mysql_connection_output
+      ansible.builtin.debug:
+        msg: "Output: {{mysql_connection_output}}"
+
+    # - name: Install Python Mysql Dependencies
+    #   ansible.builtin.pip:
+    #     name:
+    #     - PyMySQL
+    #     - cryptography
+    #     executable: pip3.9
