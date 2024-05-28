@@ -1,5 +1,5 @@
 - name: Install mySql for Expense
-  hosts: localhost
+  hosts: DB
   become: true
 
   vars:
