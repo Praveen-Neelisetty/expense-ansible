@@ -6,7 +6,7 @@
     my_login_host: "praveen.store"
 
   vars_prompt:
-    name: my_login_password
+    name: mysql_root_password
     prompt: "Please Enter your login password: "
     private: false
 
@@ -32,7 +32,7 @@
     - name: check DB Connection
       community.mysql.mysql_info:
         login_user: root
-        login_password: "{{ my_login_password }}"
+        login_password: "{{ mysql_root_password }}"
         login_host: "{{ my_login_host }}"
         filter: version
       ignore_errors: yes
@@ -41,3 +41,8 @@
     - name: print output of mysql_connection_output
       ansible.builtin.debug:
         msg: "Output: {{mysql_connection_output}}"
+
+    - name: Setup MySql Password
+      ansible.builtin.command:
+        cmd: "mysql_secure_installation --set-root-pass {{mysql_root_password}}"
+        when: mysql_connection_output.failed is true
