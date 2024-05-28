@@ -23,7 +23,7 @@
         enabled: yes
 
      - name: Install Python Mysql Dependencies
-      ansible.builtin.pip:
+       ansible.builtin.pip:
         name:
           - PyMySQL
           - cryptography
