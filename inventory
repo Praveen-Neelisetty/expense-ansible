@@ -1,2 +1,13 @@
-[DB]
-172.31.27.103
+[db]
+172.31.18.86
+
+[backend]
+172.31.17.68
+
+[frontend]
+54.83.94.221
+
+[all:children]
+db
+backend
+frontend
