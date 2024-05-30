@@ -71,7 +71,6 @@
         target: /app/schema/backend.sql
         state: import
         name: all
-        remote_src: yes
 
     - name: Restart backend
       ansible.builtin.service:
