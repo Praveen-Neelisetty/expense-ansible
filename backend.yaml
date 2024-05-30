@@ -1,9 +1,9 @@
 - name: Install backend services
   hosts: backend
   become: true
-  
+
   vars:
-    login_host : db.praveen.store
+    login_host: db.praveen.store
     login_password: ExpenseApp@1
 
   tasks:
@@ -18,8 +18,8 @@
         - name: "{{ item }}"
           state: installed
       loop:
-      - nodejs
-      - mysql
+        - nodejs
+        - mysql
 
     - name: Add user expense
       ansible.builtin.User:
@@ -57,13 +57,13 @@
 
     - name: Install Python Mysql Dependencies for ansible
       ansible.builtin.pip:
+        executable: pip3.9
         name: "{{ item }}"
       loop:
-      - PyMySQL
-      - cryptography
-        executable: pip3.9
+        - PyMySQL
+        - cryptography
 
-    - name: Load Schema 
+    - name: Load Schema
       community.mysql.mysql_db:
         login_user: root
         login_password: "{{login_password}}"
@@ -77,4 +77,3 @@
         name: backend
         state: started
         enabled: yes
-
