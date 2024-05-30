@@ -22,7 +22,7 @@
         - mysql
 
     - name: Add user expense
-      ansible.builtin.User:
+      ansible.builtin.user:
         name: expense
 
     - name: create a new directory 'app'
