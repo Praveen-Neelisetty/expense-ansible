@@ -68,7 +68,7 @@
         login_user: root
         login_password: "{{ login_password }}"
         login_host: "{{ login_host }}"
-        target: /app/backend.sql
+        target: /app/schema/backend.sql
         state: import
         name: all
         remote_src: yes
