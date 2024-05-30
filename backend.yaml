@@ -15,8 +15,8 @@
 
     - name: Install Nodejs
       anisible.builtin.dnf:
-        - name: "{{ item }}"
-          state: installed
+        name: "{{ item }}"
+        state: installed
       loop:
         - nodejs
         - mysql
