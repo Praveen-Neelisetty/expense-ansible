@@ -1,0 +1,80 @@
+- name: Install backend services
+  hosts: backend
+  become: true
+
+  vars:
+    name:
+      login_host: db.praveen.store
+      login_password: ExpenseApp@1
+
+  tasks:
+    - name: Disable Nodejs default version
+      ansible.builtin.command: dnf module disable nodejs -y
+
+    - name: Enable Nodejs 20 version
+      ansible.builtin.command: dnf module enable nodejs:20 -y
+
+    - name: Install nodejs
+      ansible.builtin.dnf:
+        name: "Installing {{ item }}"
+        loop:
+          - nodejs
+          - mysql
+        state: installed
+
+    - name: Add user expense
+      ansible.bultin.user:
+        name: expense
+
+    - name: Create App Directory
+      ansible.builtin.file:
+        path: /app
+        state: directory
+
+    - name: download backend code
+      ansible.builtin.get_url:
+        url: https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
+        dest: /tmp/backend
+
+    - name: Unarchive/Unzip backend code
+      ansible.builtin.unarchive:
+        src: /tmp/backend
+        dest: /app
+        remote_src: yes # by default checks in ansible server, so I am giving this so that it will check in remote server
+
+    - name: Download npm dependencies
+      ansible.builtin.command: npm install
+      args:
+        chdir: /app
+
+    - name: Copy backend service into backend server
+      ansible.builtin.copy:
+        src: backend.service
+        dest: etc/systemd/system/backend.service
+
+    - name: daemon reload
+      ansible.builtin.systemd_service:
+        daemin_reload: true
+
+    - name: Install python mysql dependencies
+      ansible.builtin.pip:
+        name: "Installing {{ item }}"
+        loop:
+          - pymysql
+          - cryptography
+        executable: pip3.9
+
+    - name: Loading Schema
+      ansible.builtin.mysql_db:
+        login_host: login_host
+        login_user: root
+        login_password: login_password
+        target: /app/schema/backend.sql
+        state: import
+        name: all # Name is for to add or remove the database.
+
+    - name: Restart backend service
+      ansible.builtin.service:
+        name: backend
+        enabled: yes
+        state: started
