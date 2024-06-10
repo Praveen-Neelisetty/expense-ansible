@@ -10,36 +10,36 @@
     private: false
 
   tasks:
-  - name: Install Mysql
-    ansible.buitlin.dnf:
-      name: mysql-server
-      state: latest
+    - name: Install Mysql
+      ansible.buitlin.dnf:
+        name: mysql-server
+        state: latest
 
-  - name: Enable and Start MySql
-    ansible.builtin.service:
-      name: mysqld
-      state: started
-      enable: yes
+    - name: Enable and Start MySql
+      ansible.builtin.service:
+        name: mysqld
+        state: started
+        enable: yes
 
-  - name: install python mysql dependencies
-    ansible.builtin.pip:
-      name:
-        - pymysql
-        - cryptography
-      executable: pip3.9
+    - name: install python mysql dependencies
+      ansible.builtin.pip:
+        name:
+          - pymysql
+          - cryptography
+        executable: pip3.9
 
-  - name: Check DB Connection
-    community.mysql.mysql_info:
-      login_user: "{{ my_login_host }}"
-      login_password: "{{ MySql_Password }}"
-      filter: version
-    ignore_errors: true
-    register: mysql_connection_output
+    - name: Check DB Connection
+      community.mysql.mysql_info:
+        login_user: "{{ my_login_host }}"
+        login_password: "{{ MySql_Password }}"
+        filter: version
+      ignore_errors: true
+      register: mysql_connection_output
 
-  - name: print mysql connection output
-    ansible.builtin.debug:
-      msg: "Output: {{ mysql_connection_output }}"
+    - name: print mysql connection output
+      ansible.builtin.debug:
+        msg: "Output: {{ mysql_connection_output }}"
 
-  - name: Setup mysql password if any issue exists
-    ansible.builtin.command: "mysql_secure_installation --set-root-pass {{ MySql_Password }}"
-    when: mysql_connection_output.failed is true
+    - name: Setup mysql password if any issue exists
+      ansible.builtin.command: "mysql_secure_installation --set-root-pass {{ MySql_Password }}"
+      when: mysql_connection_output.failed is true
