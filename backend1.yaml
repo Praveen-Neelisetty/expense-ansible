@@ -61,7 +61,7 @@
         name: "Installing {{ item }}"
         executable: pip3.9
       loop:
-        - pymysql
+        - PyMySQL
         - cryptography
 
     - name: Loading Schema
