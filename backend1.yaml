@@ -3,9 +3,8 @@
   become: true
 
   vars:
-    name:
-      login_host: db.praveen.store
-      login_password: ExpenseApp@1
+    login_host: db.praveen.store
+    login_password: ExpenseApp@1
 
   tasks:
     - name: Disable Nodejs default version
