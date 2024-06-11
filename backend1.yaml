@@ -59,10 +59,10 @@
     - name: Install python mysql dependencies
       ansible.builtin.pip:
         name: "Installing {{ item }}"
-        loop:
-          - pymysql
-          - cryptography
         executable: pip3.9
+      loop:
+        - pymysql
+        - cryptography
 
     - name: Loading Schema
       ansible.builtin.mysql_db:
