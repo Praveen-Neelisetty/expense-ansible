@@ -11,7 +11,7 @@
 
   tasks:
     - name: Install Mysql
-      ansible.buitlin.dnf:
+      ansible.builtin.dnf:
         name: mysql-server
         state: latest
 
