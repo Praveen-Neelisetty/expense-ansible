@@ -23,7 +23,7 @@
         state: installed
 
     - name: Add user expense
-      ansible.bultin.user:
+      ansible.builtin.user:
         name: expense
 
     - name: Create App Directory
