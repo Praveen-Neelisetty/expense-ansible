@@ -54,7 +54,7 @@
 
     - name: daemon reload
       ansible.builtin.systemd_service:
-        daemin_reload: true
+        daemon_reload: true
 
     - name: Install python mysql dependencies
       ansible.builtin.pip:
